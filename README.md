@@ -1,15 +1,8 @@
-# Project Title
-
-## Table of Contents
-
-- [About](#about)
-- [Getting Started](#getting_started)
-- [Usage](#usage)
-- [Contributing](../CONTRIBUTING.md)
+# CodeCroc Django Ecom
 
 ## About <a name = "about"></a>
 
-Write about 1-2 paragraphs describing the purpose of your project.
+This is a demo project of CodeCroc Django Course
 
 ## Getting Started <a name = "getting_started"></a>
 
@@ -20,7 +13,9 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them.
 
 ```
-Give examples
+pip install virtualenv
+virtualenv venv
+source venv/bin/activate
 ```
 
 ### Installing
@@ -30,13 +25,7 @@ A step by step series of examples that tell you how to get a development env run
 Say what the step will be
 
 ```
-Give the example
-```
-
-And repeat
-
-```
-until finished
+pip install -r requirements.txt
 ```
 
 End with an example of getting some data out of the system or using it for a little demo.
