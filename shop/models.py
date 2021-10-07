@@ -55,7 +55,7 @@ class Order(models.Model):
         '特價', max_digits=6, decimal_places=2, default=0.00)
     status = models.CharField('訂單狀態', max_length=63, null=True, blank=True)
     products = models.ManyToManyField(
-        Product, verbose_name='訂單內容', related_name='orders')
+        Product, verbose_name='訂單內容', related_name='orders', through='Mapping')
 
     def __str__(self):
         return f"{self.id}"
@@ -63,3 +63,20 @@ class Order(models.Model):
     class Meta:
         verbose_name = '訂單'
         verbose_name_plural = '訂單'
+
+
+class Mapping(models.Model):
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, verbose_name='訂單')
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, verbose_name='產品')
+    quantity = models.IntegerField(default=1)
+    subtotal = models.DecimalField(
+        '小計', max_digits=6, decimal_places=2, default=0.00)
+
+    def __str__(self):
+        return f"訂單編號：{self.order.id}-{self.product.title}"
+
+    class Meta:
+        verbose_name = '訂單產品'
+        verbose_name_plural = '訂單產品'
