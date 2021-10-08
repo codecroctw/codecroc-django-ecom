@@ -81,8 +81,12 @@ class Mapping(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, verbose_name='產品')
     quantity = models.IntegerField(default=1)
-    subtotal = models.DecimalField(
-        '小計', max_digits=6, decimal_places=2, default=0.00)
+    # subtotal = models.DecimalField(
+    #    '小計', max_digits=6, decimal_places=2, default=0.00)
+
+    @property
+    def subtotal(self):
+        return self.product.discounted_price * self.quantity
 
     def __str__(self):
         return f"訂單編號：{self.order.id}-{self.product.title}"
