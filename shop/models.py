@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 from django.db.models import Sum, F
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 
 from uuid import uuid4
 
@@ -96,26 +98,13 @@ class Mapping(models.Model):
         verbose_name = '訂單產品'
         verbose_name_plural = '訂單產品'
 
-    def update_order_total(self):
-        '''
-        self.order.total 更新總價
-        '''
-        order = self.order
-        output = Mapping.objects.filter(order=order).aggregate(
-            t=Sum(F('product__discounted_price')*F('quantity')))
-        order.total = output['t']
-        order.save()
 
-    def save(self, *args, **kwargs):
-        super(Mapping, self).save(*args, **kwargs)
-        self.update_order_total()
-
-    def delete(self, *args, **kwargs):
-        order = self.order
-
-        super(Mapping, self).delete(*args, **kwargs)
-
-        output = Mapping.objects.filter(order=order).aggregate(
-            t=Sum(F('product__discounted_price')*F('quantity')))
-        order.total = output['t'] if output['t'] is not None else 0.0
-        order.save()
+@receiver(post_delete, sender=Mapping)
+@receiver(post_save, sender=Mapping)
+def update_order_total(sender, *args, **kwargs):
+    instance = kwargs['instance']
+    order = instance.order
+    output = Mapping.objects.filter(order=order).aggregate(
+        t=Sum(F('product__discounted_price')*F('quantity')))
+    order.total = output['t'] if output['t'] is not None else 0.0
+    order.save()
