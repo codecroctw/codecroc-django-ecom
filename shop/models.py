@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
+from django.db.models import Sum, F
 
 from uuid import uuid4
 
@@ -61,7 +62,7 @@ class Order(models.Model):
     created_at = models.DateTimeField('建立於', auto_now_add=True)
     updated_at = models.DateTimeField('更新於', auto_now=True)
     total = models.DecimalField(
-        '特價', max_digits=6, decimal_places=2, default=0.00)
+        '總價', max_digits=6, decimal_places=2, default=0.00)
     status = models.CharField(
         '訂單狀態', max_length=63, choices=StatusChoices.choices, default=StatusChoices.ORDER_SENT)
     products = models.ManyToManyField(
@@ -80,7 +81,7 @@ class Mapping(models.Model):
         Order, on_delete=models.CASCADE, verbose_name='訂單')
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, verbose_name='產品')
-    quantity = models.IntegerField(default=1)
+    quantity = models.IntegerField('數量', default=1)
     # subtotal = models.DecimalField(
     #    '小計', max_digits=6, decimal_places=2, default=0.00)
 
@@ -94,3 +95,27 @@ class Mapping(models.Model):
     class Meta:
         verbose_name = '訂單產品'
         verbose_name_plural = '訂單產品'
+
+    def update_order_total(self):
+        '''
+        self.order.total 更新總價
+        '''
+        order = self.order
+        output = Mapping.objects.filter(order=order).aggregate(
+            t=Sum(F('product__discounted_price')*F('quantity')))
+        order.total = output['t']
+        order.save()
+
+    def save(self, *args, **kwargs):
+        super(Mapping, self).save(*args, **kwargs)
+        self.update_order_total()
+
+    def delete(self, *args, **kwargs):
+        order = self.order
+
+        super(Mapping, self).delete(*args, **kwargs)
+
+        output = Mapping.objects.filter(order=order).aggregate(
+            t=Sum(F('product__discounted_price')*F('quantity')))
+        order.total = output['t'] if output['t'] is not None else 0.0
+        order.save()
