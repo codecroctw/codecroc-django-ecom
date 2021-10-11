@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # TODO: uncomment
     # admin interface (3rd)
     # 'admin_interface',
     # 'colorfield',
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
 
     # user apps
     'shop',
+    'crm',
 ]
 
 MIDDLEWARE = [

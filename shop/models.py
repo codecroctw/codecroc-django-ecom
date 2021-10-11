@@ -70,6 +70,13 @@ class Order(models.Model):
     products = models.ManyToManyField(
         Product, verbose_name='訂單內容', related_name='orders', through='Mapping')
 
+    # TODO: remove blank, null = True
+    name = models.CharField('姓名', max_length=15, blank=True, null=True)
+    phone = models.CharField('電話', max_length=15, blank=True, null=True)
+    address = models.CharField('地址', max_length=127, blank=True, null=True)
+
+    note = models.TextField('備註', blank=True, null=True)
+
     def __str__(self):
         return f"{self.id}"
 
