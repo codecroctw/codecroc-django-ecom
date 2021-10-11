@@ -32,8 +32,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # admin interface (3rd)
-    'admin_interface',
-    'colorfield',
+    # 'admin_interface',
+    # 'colorfield',
 
     # django default apps
     'django.contrib.admin',

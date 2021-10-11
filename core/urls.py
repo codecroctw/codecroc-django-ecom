@@ -13,3 +13,7 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
+
+admin.site.index_title = 'Django Ecom 後台'
+admin.site.site_header = 'CodeCroc 管理'
+admin.site.site_title = 'CodeCroc Ecom'
