@@ -1,12 +1,9 @@
 from django.contrib import admin
+from django import forms
 
 from .models import Product, Category, Order, Mapping
 
 # Register your models here.
-# admin.site.register(Category)
-# admin.site.register(Product)
-# admin.site.register(Order)
-admin.site.register(Mapping)
 
 
 @admin.register(Category)
@@ -27,6 +24,12 @@ class ProductAdmin(admin.ModelAdmin):
     readonly_fields = ['image_preview', ]
 
 
+class OrderProductInline(admin.TabularInline):
+    model = Mapping
+    extra = 1
+    readonly_fields = ['subtotal', ]
+
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['id', 'customer', 'status',
@@ -34,6 +37,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_editable = ['status', ]
     list_filter = ['status', 'created_at', 'updated_at', ]
     search_fields = ['name', 'phone', 'admin', ]
+    inlines = [OrderProductInline, ]
 
 
 class ShopAdminSite(admin.AdminSite):

@@ -106,9 +106,9 @@ class Mapping(models.Model):
     # subtotal = models.DecimalField(
     #    '小計', max_digits=6, decimal_places=2, default=0.00)
 
-    @property
     def subtotal(self):
         return self.product.discounted_price * self.quantity
+    subtotal.short_description = '小計'
 
     def __str__(self):
         return f"訂單編號：{self.order.id}-{self.product.title}"
