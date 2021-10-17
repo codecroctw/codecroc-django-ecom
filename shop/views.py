@@ -5,4 +5,5 @@ from django.http import HttpResponse
 
 
 def home(req):
-    return HttpResponse('<h1>Hello World</h1>')
+    # return HttpResponse('<h1>Hello World</h1>')
+    return render(req, template_name='test.html')
