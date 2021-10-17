@@ -4,6 +4,7 @@ from django.conf import settings
 from django.db.models import Sum, F
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from django.utils.safestring import mark_safe
 
 from uuid import uuid4
 
@@ -24,6 +25,13 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+    def image_preview(self):
+        return mark_safe('<img src="{}" width="100" />'.format(self.image.url)) if self.image else '-'
+    image_preview.short_description = '圖片預覽'
+
+    def test_button(self):
+        return mark_safe(f"<button>{self.title}</button>")
+
     class Meta:
         verbose_name = '產品類別'
         verbose_name_plural = '產品類別'
@@ -43,6 +51,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+
+    def image_preview(self):
+        return mark_safe('<img src="{}" width="100" />'.format(self.primary_image.url)) if self.primary_image else '-'
+    image_preview.short_description = '圖片預覽'
 
     class Meta:
         verbose_name = '產品'

@@ -3,19 +3,28 @@ from django.contrib import admin
 from .models import Product, Category, Order, Mapping
 
 # Register your models here.
-admin.site.register(Category)
+# admin.site.register(Category)
 # admin.site.register(Product)
 # admin.site.register(Order)
 admin.site.register(Mapping)
 
 
+@admin.register(Category)
+class CatAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'image_preview', 'test_button']
+    list_display_links = ['id', 'title', 'image_preview', ]
+
+    readonly_fields = ['image_preview', ]
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'category',
+    list_display = ['id', 'title', 'image_preview', 'category',
                     'original_price', 'discounted_price']
     search_fields = ['title', 'description', ]
     list_filter = ['category', ]
-    list_display_links = ['id', 'title', ]
+    list_display_links = ['id', 'title', 'image_preview', ]
+    readonly_fields = ['image_preview', ]
 
 
 @admin.register(Order)
