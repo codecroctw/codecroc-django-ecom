@@ -102,7 +102,7 @@ class Mapping(models.Model):
         Order, on_delete=models.CASCADE, verbose_name='訂單')
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, verbose_name='產品')
-    quantity = models.IntegerField('數量', default=1)
+    quantity = models.PositiveIntegerField('數量', default=1)
     # subtotal = models.DecimalField(
     #    '小計', max_digits=6, decimal_places=2, default=0.00)
 
