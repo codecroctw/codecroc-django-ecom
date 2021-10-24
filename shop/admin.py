@@ -39,6 +39,12 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ['name', 'phone', 'admin', ]
     inlines = [OrderProductInline, ]
 
+    actions = ['make_order_invoice']
+
+    @admin.action(description='開立發票')
+    def make_order_invoice(modeladmin, request, queryset):
+        queryset.update(status=Order.StatusChoices.INVOICE_MADE)
+
 
 class ShopAdminSite(admin.AdminSite):
     site_header = '商品後台'
