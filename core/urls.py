@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from shop.admin import shop_admin
@@ -8,6 +8,7 @@ from shop.views import home
 
 urlpatterns = [
     path('', home),
+    path('auth/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
     path('shop_admin/', shop_admin.urls)
 ]
