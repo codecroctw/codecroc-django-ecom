@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http.response import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -10,6 +11,7 @@ def home(req):
     return render(req, template_name='test.html')
 
 
+@login_required(login_url='/auth/login')
 def test2(req):
     return render(req, template_name='shop/test2.html')
 
