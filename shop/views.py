@@ -22,3 +22,8 @@ def http_response(req):
 
 def redirect_view(req):
     return HttpResponseRedirect('/')
+
+def post_view(req):
+    if req.method == 'POST':
+        print(req.POST)
+    return render(req, template_name='shop/post.html')

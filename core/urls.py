@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from shop.admin import shop_admin
 
-from shop.views import home, test2, http_response, redirect_view
+from shop.views import home, post_view, test2, http_response, redirect_view
 
 urlpatterns = [
     path('', home),
@@ -12,8 +12,9 @@ urlpatterns = [
     path('test2/', test2),
     path('http_response/', http_response),
     path('redirect/', redirect_view),
+    path('post/', post_view),
     path('admin/', admin.site.urls),
-    path('shop_admin/', shop_admin.urls)
+    path('shop_admin/', shop_admin.urls),
 ]
 
 if settings.DEBUG:
