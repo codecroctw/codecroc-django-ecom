@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
-from django.http.response import HttpResponseRedirect
+from django.http.response import Http404, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+
+from shop.models import Product
 
 # Create your views here.
 
@@ -31,3 +33,24 @@ def post_view(req):
         print(mytext)
         print(req.META)
     return render(req, template_name='shop/test-form.html')
+
+
+def product_detail_view(req):
+    if req.method == 'GET':
+        data = req.GET
+        product_id = data.get('p')
+    #obj = get_object_or_404(Product, id=product_id)
+        # try:
+        #    obj = Product.objects.get(id=product_id)
+        # except:
+        #    raise Http404
+
+        qs = Product.objects.filter(id=product_id)
+        if not qs.exists() and qs.count() != 1:
+            raise Http404
+        else:
+            obj = qs.first()
+    context = {'object': obj}
+    template = 'shop/product-detail.html'
+
+    return render(req, template, context)

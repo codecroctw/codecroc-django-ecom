@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+	<h1>
+		{{ object.title }}
+	</h1>
+	{% if object.primary_image %}
+		<img src="{{ object.primary_image.url}}" alt="{{ object.title }}" width="100px" height="100px">
+	{% else %}
+		<p> - </p>
+	{% endif %}
+	<p>原價： {{ object.original_price }}</p>
+	<p>特價： {{ object.discounted_price }}</p>
+  </body>
+</html>
