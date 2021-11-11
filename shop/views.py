@@ -35,21 +35,8 @@ def post_view(req):
     return render(req, template_name='shop/test-form.html')
 
 
-def product_detail_view(req):
-    if req.method == 'GET':
-        data = req.GET
-        product_id = data.get('p')
-    #obj = get_object_or_404(Product, id=product_id)
-        # try:
-        #    obj = Product.objects.get(id=product_id)
-        # except:
-        #    raise Http404
-
-        qs = Product.objects.filter(id=product_id)
-        if not qs.exists() and qs.count() != 1:
-            raise Http404
-        else:
-            obj = qs.first()
+def product_detail_view(req, id):
+    obj = get_object_or_404(Product, id=id)
     context = {'object': obj}
     template = 'shop/product-detail.html'
 

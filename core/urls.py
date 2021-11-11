@@ -9,11 +9,12 @@ from shop.views import (home, post_view, product_detail_view,
 
 urlpatterns = [
     path('', home),
+    path('shop/', include('shop.urls', namespace='shop')),
     path('auth/', include('django.contrib.auth.urls')),
     path('test2/', test2),
     path('http_response/', http_response),
     path('post/', post_view),
-    path('product-detail', product_detail_view),
+    #path('product-detail', product_detail_view),
     path('redirect/', redirect_view),
     path('admin/', admin.site.urls),
     path('shop_admin/', shop_admin.urls)
