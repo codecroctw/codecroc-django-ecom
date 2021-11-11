@@ -22,3 +22,12 @@ def http_response(req):
 
 def redirect_view(req):
     return HttpResponseRedirect('/')
+
+
+def post_view(req):
+    if req.method == 'POST':
+        data = req.POST
+        mytext = data.get('mytext')
+        print(mytext)
+        print(req.META)
+    return render(req, template_name='shop/test-form.html')
