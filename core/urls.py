@@ -12,6 +12,7 @@ urlpatterns = [
     path('auth/', include('django.contrib.auth.urls')),
     path('test2/', test2),
     path('http_response/', http_response),
+    path('shop', include('shop.urls', namespace='shop')),
     path('post/', post_view),
     path('product-detail', product_detail_view),
     path('redirect/', redirect_view),
