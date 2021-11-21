@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.http.response import Http404, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 from shop.models import Product
 
@@ -39,5 +40,25 @@ def product_detail_view(req, id):
     obj = get_object_or_404(Product, id=id)
     context = {'object': obj}
     template = 'shop/product-detail.html'
+
+    return render(req, template, context)
+
+
+def product_list_view(req):
+    data = req.GET
+    try:
+        page = int(data.get('p'))
+    except:
+        raise Http404
+    per_page = 6  # 每頁顯示多少個
+    if page:
+        products = Product.objects.order_by(
+            '-updated_at')[(page-1)*per_page:page*per_page]
+        if not products.exists():
+            raise Http404
+    else:
+        products = Product.objects.order_by('-updated_at')[:per_page]
+    context = {'products': products}
+    template = 'shop/product-list.html'
 
     return render(req, template, context)
