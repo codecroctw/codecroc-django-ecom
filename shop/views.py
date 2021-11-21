@@ -1,8 +1,9 @@
+from django.core import paginator
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.http.response import Http404, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
+from django.core.paginator import Paginator
 
 from shop.models import Product
 
@@ -46,19 +47,29 @@ def product_detail_view(req, id):
 
 def product_list_view(req):
     data = req.GET
+    per_page = 6  # 每頁顯示多少個
+    products = Product.objects.order_by('-updated_at')
+    paginator = Paginator(products, per_page)
     try:
-        page = int(data.get('p'))
+        page = int(data.get('p')) if data.get('p') else None
     except:
         raise Http404
-    per_page = 6  # 每頁顯示多少個
     if page:
-        products = Product.objects.order_by(
-            '-updated_at')[(page-1)*per_page:page*per_page]
-        if not products.exists():
+        try:
+            products = paginator.page(page)
+        except:
             raise Http404
     else:
-        products = Product.objects.order_by('-updated_at')[:per_page]
-    context = {'products': products}
+        products = paginator.page(1)
+
+    print(paginator.count)
+    print(paginator.num_pages)
+    print(paginator.page_range)
+
+    context = {
+        'products': products,
+        'page_range': paginator.page_range
+    }
     template = 'shop/product-list.html'
 
     return render(req, template, context)

@@ -18,5 +18,10 @@
 		{% endif %}
 	</div>
 {% endfor %}
+{% for i in page_range  %}
+	<a href="{% url 'shop:product-list' %}?p={{ i }}">
+		<button>{{ i }}</button>
+	</a>
+{% endfor %}
 </body>
 </html>
