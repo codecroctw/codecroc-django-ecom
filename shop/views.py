@@ -44,7 +44,16 @@ def product_detail_view(req, id):
 
 
 def product_list_view(req):
-    products = Product.objects.order_by('-updated_at')[:5]
+    data = req.GET
+    page = data.get('p')
+    page = int(page)
+    per_page = 5
+    if page:
+        skip = page - 1
+        products = Product.objects.order_by(
+            'updated_at')[skip*per_page:page*per_page]
+    else:
+        products = Product.objects.order_by('-updated_at')[:5]
     template = 'shop/product-list.html'
     context = {'products': products}
 
