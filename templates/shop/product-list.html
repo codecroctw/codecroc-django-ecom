@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Product List</title>
+</head>
+<body>
+<h1>商品列表</h1>
+{% for p in products %}
+	<div>
+		<h2>{{ p.title }}</h2>
+		{% if p.primary_image %}
+			<img src="{{ p.primary_image.url }}" alt="{{ p.title }}" width="100px" height="100px">
+		{% endif %}
+		<p>{{ p.description }}</p>
+
+	</div>
+{% endfor %}
+</body>
+</html>

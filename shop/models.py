@@ -21,6 +21,8 @@ class Category(models.Model):
     title = models.CharField('標題', max_length=63)
     image = models.ImageField(
         '圖片', null=True, default=None, upload_to=path_and_rename)
+    created_at = models.DateTimeField('建立於', auto_now_add=True)
+    updated_at = models.DateTimeField('更新於', auto_now=True)
 
     def __str__(self):
         return self.title
@@ -48,6 +50,8 @@ class Product(models.Model):
         '特價', max_digits=6, decimal_places=2, default=0.00)
     category = models.ForeignKey(
         Category, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='產品類別')
+    created_at = models.DateTimeField('建立於', auto_now_add=True)
+    updated_at = models.DateTimeField('更新於', auto_now=True)
 
     def __str__(self):
         return self.title

@@ -41,3 +41,14 @@ def product_detail_view(req, id):
     template = 'shop/product-detail.html'
 
     return render(req, template, context)
+
+
+def product_list_view(req):
+    products = Product.objects.order_by('-updated_at')[:5]
+    template = 'shop/product-list.html'
+    context = {'products': products}
+
+    for p in products:
+        print(p)
+
+    return render(req, template, context)
