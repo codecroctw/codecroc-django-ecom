@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>商品列表</title>
+</head>
+<body>
+	<h1>商品列表</h1>
+	{% for p in products  %}
+		<h2>{{ p.title }}</h2>
+		{% if p.primary_image %}
+			<img src="{{ p.primary_image.url }}" alt="{{ p.title }}" width="100px" height="100px" />
+		{% endif %}
+		{% if p.description %}
+			<p>{{ p.description }}</p>
+		{% endif %}
+	{% endfor %}
+	{% if page_obj.has_previous %}
+		<a href="?page={{ page_obj.previous_page_number }}"> &laquo; </a>
+	{% endif %}
+	{% for i in page_obj.paginator.page_range  %}
+	<a href="{% url 'shop:product-list' %}?page={{ i }}">
+		{{ i }}
+	</a>
+	{% endfor %}
+	{% if page_obj.has_next %}
+		<a href="?page={{ page_obj.next_page_number }}"> &raquo; </a>
+	{% endif %}
+</body>
+</html>

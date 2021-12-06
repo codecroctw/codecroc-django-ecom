@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.http.response import Http404, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.views.generic import ListView, DetailView
 
 from shop.models import Product
 
@@ -73,3 +74,16 @@ def product_list_view(req):
     template = 'shop/product-list.html'
 
     return render(req, template, context)
+
+
+class ProductListView(ListView):
+    model = Product
+    template_name = 'shop/product-list-generic.html'
+
+    paginate_by = 6
+    #queryset = Product.objects.filter(title='new product')
+
+    # def get_queryset(self):
+    #    return Product.objects.filter(title='new product')
+
+    context_object_name = 'products'
