@@ -87,3 +87,8 @@ class ProductListView(ListView):
     #    return Product.objects.filter(title='new product')
 
     context_object_name = 'products'
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'shop/product-detail-generic.html'
