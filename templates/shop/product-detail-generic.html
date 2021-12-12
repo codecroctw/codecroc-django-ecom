@@ -7,7 +7,8 @@
 	<title>{{ object.title }}</title>
 </head>
 <body>
-	<h1>{{ object.title }}</h1>
+	<!--<h1>{{ object.title }}</h1>-->
+	<h1>{{ title }}</h1>
 	{% if object.primary_image %}
 		<img src="{{ object.primary_image.url }}" alt="{{ object.title }}" width="200px" height="200px" />
 	{% endif %}

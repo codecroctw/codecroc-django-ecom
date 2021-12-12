@@ -7,7 +7,7 @@
 	<title>商品列表</title>
 </head>
 <body>
-	<h1>商品列表</h1>
+	<h1>{{ title }}</h1>
 	{% for p in products  %}
 		<h2>{{ p.title }}</h2>
 		{% if p.primary_image %}

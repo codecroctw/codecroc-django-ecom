@@ -88,7 +88,28 @@ class ProductListView(ListView):
 
     context_object_name = 'products'
 
+    title = '商品列表'
 
-class ProductDetailView(DetailView):
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['title'] = self.title
+        return context
+
+
+class ProductDetailMixin(object):
+    title = None
+    template_name = 'shop/product-detail-generic.html'
+
+    def get_title(self):
+        return self.title
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['title'] = self.get_title()
+        return context
+
+
+class ProductDetailView(ProductDetailMixin, DetailView):
+    title = 'Hello World'
     model = Product
     template_name = 'shop/product-detail-generic.html'
