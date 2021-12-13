@@ -13,5 +13,9 @@
 		<img src="{{ object.primary_image.url }}" alt="{{ object.title }}" width="200px" height="200px" />
 	{% endif %}
 	<p>{{ object.description }}</p>
+	<hr />
+	{% if user.is_authenticated %}
+		<p>歡迎回來，{{ user.get_username }}</p>
+	{% endif %}
 </body>
 </html>

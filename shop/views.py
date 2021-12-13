@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.http.response import Http404, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView
 
@@ -109,7 +110,9 @@ class ProductDetailMixin(object):
         return context
 
 
-class ProductDetailView(ProductDetailMixin, DetailView):
+class ProductDetailView(LoginRequiredMixin, ProductDetailMixin, DetailView):
+    login_url = '/auth/login/'
+
     title = 'Hello World'
     model = Product
     template_name = 'shop/product-detail-generic.html'
