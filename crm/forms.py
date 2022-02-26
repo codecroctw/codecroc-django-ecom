@@ -7,6 +7,11 @@ class TestForm(forms.Form):
 	integer = forms.IntegerField()
 	email = forms.EmailField(required=False)
 
+	def __init__(self, user=None,*args, **kwargs):
+		super(TestForm, self).__init__(*args, **kwargs)
+		self.fields['some_text'].initial = user.userprofile_set.first().phone
+
+
 	def clean_integer(self, *args, **kwargs):
 		'''
 		clean_[field_name]
