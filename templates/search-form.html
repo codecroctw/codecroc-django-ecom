@@ -9,7 +9,7 @@
   <body>
     <div class="container">
       <form method="POST" action=".">
-        {% csrf_token %} {{ form }}
+        {% csrf_token %} {{ form.as_p }}
         <input type="SUBMIT" value="送出" />
       </form>
     </div>
